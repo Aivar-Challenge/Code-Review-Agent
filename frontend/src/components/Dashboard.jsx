@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Activity, Bug, CheckCircle2, Shield, DollarSign, Search, List as ListIcon, Settings, BookOpen, Plus, Bot } from 'lucide-react'
 import { getStats, listRuns } from '../api'
 
 const DOMAIN_COLORS = {
@@ -12,7 +13,10 @@ const DOMAIN_COLORS = {
 function StatCard({ label, value, sub, icon, accent }) {
   return (
     <div className="stat-card" style={accent ? { borderColor: `${accent}30` } : {}}>
-      <div className="stat-label">{icon} {label}</div>
+      <div className="stat-label flex items-center gap-2">
+        <span style={accent ? { color: accent } : { color: 'var(--text-muted)' }}>{icon}</span> 
+        {label}
+      </div>
       <div className="stat-value" style={accent ? { color: accent } : {}}>{value ?? '—'}</div>
       {sub && <div className="stat-sub">{sub}</div>}
     </div>
@@ -65,18 +69,18 @@ export default function Dashboard() {
           <h2 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: 4 }}>Dashboard</h2>
           <p className="text-sm text-muted">Overview of all code review activity</p>
         </div>
-        <button className="btn btn-primary" onClick={() => navigate('/review/new')}>
-          ➕ New Review
+        <button className="btn btn-primary flex items-center gap-2" onClick={() => navigate('/review/new')}>
+          <Plus size={16} /> New Review
         </button>
       </div>
 
       {/* Stats grid */}
       <div className="stats-grid">
-        <StatCard icon="🔄" label="Total Runs" value={stats?.total_runs} sub={`${stats?.completed_runs} completed`} />
-        <StatCard icon="🐛" label="Total Findings" value={stats?.total_findings} sub={`${stats?.posted_findings} posted to GitHub`} accent="#3b82f6" />
-        <StatCard icon="🔴" label="Correctness" value={stats?.domain_breakdown?.correctness} accent="#ef4444" />
-        <StatCard icon="🔐" label="Security" value={stats?.domain_breakdown?.security} accent="#f97316" />
-        <StatCard icon="💰" label="Total Cost" value={`$${(stats?.total_cost_usd || 0).toFixed(4)}`} sub={`${(stats?.total_tokens || 0).toLocaleString()} tokens`} />
+        <StatCard icon={<Activity size={18} />} label="Total Runs" value={stats?.total_runs} sub={`${stats?.completed_runs} completed`} />
+        <StatCard icon={<Bug size={18} />} label="Total Findings" value={stats?.total_findings} sub={`${stats?.posted_findings} posted to GitHub`} accent="#3b82f6" />
+        <StatCard icon={<CheckCircle2 size={18} />} label="Correctness" value={stats?.domain_breakdown?.correctness} accent="#ef4444" />
+        <StatCard icon={<Shield size={18} />} label="Security" value={stats?.domain_breakdown?.security} accent="#f97316" />
+        <StatCard icon={<DollarSign size={18} />} label="Total Cost" value={`$${(stats?.total_cost_usd || 0).toFixed(4)}`} sub={`${(stats?.total_tokens || 0).toLocaleString()} tokens`} />
       </div>
 
       <div className="grid-2">
@@ -109,22 +113,22 @@ export default function Dashboard() {
             <span className="card-title">Quick Actions</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <button className="btn btn-primary w-full" onClick={() => navigate('/review/new')}>
-              🔍 Start a New Review
+            <button className="btn btn-primary w-full flex items-center justify-center gap-2" onClick={() => navigate('/review/new')}>
+              <Search size={16} /> Start a New Review
             </button>
-            <button className="btn btn-secondary w-full" onClick={() => navigate('/runs')}>
-              📋 View All Runs
+            <button className="btn btn-secondary w-full flex items-center justify-center gap-2" onClick={() => navigate('/runs')}>
+              <ListIcon size={16} /> View All Runs
             </button>
-            <button className="btn btn-secondary w-full" onClick={() => navigate('/config')}>
-              ⚙️ Configure Agent
+            <button className="btn btn-secondary w-full flex items-center justify-center gap-2" onClick={() => navigate('/config')}>
+              <Settings size={16} /> Configure Agent
             </button>
             <a
               href="http://localhost:8000/docs"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-secondary w-full"
+              className="btn btn-secondary w-full flex items-center justify-center gap-2"
             >
-              📖 API Documentation
+              <BookOpen size={16} /> API Documentation
             </a>
           </div>
         </div>
@@ -138,7 +142,7 @@ export default function Dashboard() {
         </div>
         {recentRuns.length === 0 ? (
           <div className="empty-state">
-            <div className="icon">🤖</div>
+            <div className="icon"><Bot size={32} /></div>
             <h3>No runs yet</h3>
             <p>Start your first code review to see results here</p>
           </div>
