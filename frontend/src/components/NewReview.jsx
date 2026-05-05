@@ -64,7 +64,10 @@ export default function NewReview() {
       const ws = connectLogsWebSocket(
         result.run_id,
         (entry) => setLogs(prev => [...prev, { ...entry, ts: new Date().toLocaleTimeString() }]),
-        () => setDone(true),
+        () => {
+          setDone(true)
+          setRunning(false)
+        },
       )
       wsRef.current = ws
     } catch (err) {
@@ -200,12 +203,6 @@ export default function NewReview() {
             >
               {running ? <Loader2 size={16} className="animate-spin" /> : <Play size={16} />}
               {running ? 'Reviewing...' : 'Start Review'}
-            </button>
-              {running ? (
-                <><span className="spinner" style={{ width: 16, height: 16 }} /> Analyzing PR...</>
-              ) : (
-                '🚀 Start Review'
-              )}
             </button>
           </div>
         </form>

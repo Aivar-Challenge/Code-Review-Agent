@@ -4,7 +4,11 @@ Config module — loads settings from .env via Pydantic Settings.
 from pydantic_settings import BaseSettings
 from pydantic import Field
 from typing import Literal
+from dotenv import load_dotenv
 
+# Force load .env file to override cached empty environment variables
+# This ensures that hot-reloads catch .env updates properly.
+load_dotenv(override=True)
 
 class Settings(BaseSettings):
     # GitHub

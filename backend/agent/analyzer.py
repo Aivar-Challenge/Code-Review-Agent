@@ -47,7 +47,7 @@ class ReviewConfig:
         self.max_tokens_per_chunk: int = raw.get("max_tokens_per_chunk", settings.max_tokens_per_chunk)
         self.model: str = raw.get("model", settings.default_model)
         self.synthesis_pass: bool = raw.get("synthesis_pass", True)
-        self.github_token: str | None = raw.get("github_token")
+        self.github_token: str | None = raw.get("github_token") or settings.github_token
 
 
 async def run_review(
