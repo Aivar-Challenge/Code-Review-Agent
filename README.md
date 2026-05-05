@@ -83,7 +83,7 @@ python cli.py runs show <RUN_ID>
 ## Application screenshots
 <img width="1455" height="834" alt="2026-05-05_20-15-34" src="https://github.com/user-attachments/assets/76623106-5253-4a7a-9da0-fcbc9579497d" />
 <img width="1470" height="823" alt="2026-05-05_20-14-32" src="https://github.com/user-attachments/assets/c4384cfa-48d3-435d-b09e-7c64a5264aa0" />
-#Reviewed content
+## Reviewed content
 <img width="1420" height="786" alt="image" src="https://github.com/user-attachments/assets/1c8aa467-041f-45cd-8ca7-94269a6db885" />
 
 
