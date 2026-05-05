@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { startReview, connectLogsWebSocket } from '../api'
+import { Bug, Shield, Zap, Target, Loader2, Play } from 'lucide-react'
 
 const DOMAINS = ['correctness', 'security', 'performance', 'test_coverage']
-const DOMAIN_ICONS = { correctness: '🐛', security: '🔐', performance: '⚡', test_coverage: '🧪' }
+const DOMAIN_ICONS = { correctness: <Bug size={16}/>, security: <Shield size={16}/>, performance: <Zap size={16}/>, test_coverage: <Target size={16}/> }
 const MODELS = [
   { value: 'llama-3.1-8b-instant', label: 'Llama 3.1 8B (Groq Fast)' },
   { value: 'gpt-4o-mini', label: 'GPT-4o Mini (Recommended)' },
@@ -63,7 +64,10 @@ export default function NewReview() {
       const ws = connectLogsWebSocket(
         result.run_id,
         (entry) => setLogs(prev => [...prev, { ...entry, ts: new Date().toLocaleTimeString() }]),
-        () => setDone(true),
+        () => {
+          setDone(true)
+          setRunning(false)
+        },
       )
       wsRef.current = ws
     } catch (err) {
@@ -173,7 +177,7 @@ export default function NewReview() {
                   onChange={e => setDryRun(e.target.checked)}
                   disabled={running}
                 />
-                <span className="text-sm">🏜️ Dry Run (don't post to GitHub)</span>
+                <span className="text-sm flex items-center gap-2"><Target size={14}/> Dry Run (don't post to GitHub)</span>
               </label>
               <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
                 <input
@@ -182,26 +186,23 @@ export default function NewReview() {
                   onChange={e => setSynthesis(e.target.checked)}
                   disabled={running}
                 />
-                <span className="text-sm">🔄 Cross-file synthesis pass</span>
+                <span className="text-sm flex items-center gap-2"><svg className="animate-spin" width="14" height="14" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Cross-file synthesis pass</span>
               </label>
             </div>
 
             {error && (
               <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '12px 16px', marginBottom: 16, color: '#f87171', fontSize: '0.875rem' }}>
-                ❌ {error}
+                {error}
               </div>
             )}
 
             <button
               type="submit"
-              className="btn btn-primary btn-lg w-full"
+              className="btn btn-primary btn-lg w-full flex items-center justify-center gap-2"
               disabled={running || !prUrl.trim()}
             >
-              {running ? (
-                <><span className="spinner" style={{ width: 16, height: 16 }} /> Analyzing PR...</>
-              ) : (
-                '🚀 Start Review'
-              )}
+              {running ? <Loader2 size={16} className="animate-spin" /> : <Play size={16} />}
+              {running ? 'Reviewing...' : 'Start Review'}
             </button>
           </div>
         </form>
@@ -211,8 +212,8 @@ export default function NewReview() {
           <div className="animate-in">
             <div className="card" style={{ height: '100%' }}>
               <div className="card-header">
-                <span className="card-title">
-                  {done ? '✅ Review Complete' : <><span className="pulse">🟢</span> Live Analysis Log</>}
+                <span className="card-title flex items-center gap-2">
+                  {done ? <><Target size={16} className="text-green-500" /> Review Complete</> : <><Loader2 size={16} className="pulse text-blue-500 animate-spin" /> Live Analysis Log</>}
                 </span>
                 {runId && (
                   <span className="text-xs font-mono text-muted">{runId.slice(0, 8)}</span>

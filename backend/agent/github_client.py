@@ -21,11 +21,17 @@ class GitHubClient:
 
     @property
     def headers(self) -> dict:
-        return {
-            "Authorization": f"Bearer {self.token}",
+        headers = {
             "Accept": "application/vnd.github.v3+json",
             "X-GitHub-Api-Version": "2022-11-28",
         }
+        if self.token:
+            headers["Authorization"] = f"Bearer {self.token}"
+        else:
+            logger.warning("No GitHub token provided to GitHubClient!")
+        # Debug print
+        print(f"DEBUG: Using headers: {list(headers.keys())}")
+        return headers
 
     async def __aenter__(self):
         self._client = httpx.AsyncClient(
@@ -55,6 +61,8 @@ class GitHubClient:
     async def get_pull_request(self, owner: str, repo: str, pr_number: int) -> dict:
         """Fetch PR metadata."""
         resp = await self._client.get(f"/repos/{owner}/{repo}/pulls/{pr_number}")
+        if resp.status_code == 404:
+            raise ValueError(f"GitHub API Error: 404 Not Found. This usually means either the PR does not exist, or the repository is private and your GitHub token is invalid/missing.")
         resp.raise_for_status()
         return resp.json()
 

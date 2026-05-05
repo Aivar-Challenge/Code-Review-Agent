@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, NavLink, useNavigate } from 'react-router-dom'
+import { Home, Search, List as ListIcon, Settings, Bot } from 'lucide-react'
 import Dashboard from './components/Dashboard'
 import NewReview from './components/NewReview'
 import RunDetail from './components/RunDetail'
@@ -8,16 +9,16 @@ import ConfigPanel from './components/ConfigPanel'
 
 function Sidebar() {
   const navItems = [
-    { to: '/', icon: '🏠', label: 'Dashboard', end: true },
-    { to: '/review/new', icon: '🔍', label: 'New Review' },
-    { to: '/runs', icon: '📋', label: 'All Runs' },
-    { to: '/config', icon: '⚙️', label: 'Config' },
+    { to: '/', icon: <Home size={18} />, label: 'Dashboard', end: true },
+    { to: '/review/new', icon: <Search size={18} />, label: 'New Review' },
+    { to: '/runs', icon: <ListIcon size={18} />, label: 'All Runs' },
+    { to: '/config', icon: <Settings size={18} />, label: 'Config' },
   ]
 
   return (
     <aside className="app-sidebar">
       <div className="sidebar-logo">
-        <h1><span className="logo-icon">🤖</span> CodeReview Agent</h1>
+        <h1><span className="logo-icon"><Bot size={22} className="text-primary" /></span> CodeReview Agent</h1>
         <p>AI-powered PR analysis</p>
       </div>
       {navItems.map(item => (
@@ -27,7 +28,7 @@ function Sidebar() {
           end={item.end}
           className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
         >
-          <span className="nav-icon">{item.icon}</span>
+          <span className="nav-icon flex items-center">{item.icon}</span>
           {item.label}
         </NavLink>
       ))}

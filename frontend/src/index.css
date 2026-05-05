@@ -7,15 +7,15 @@
 
 :root {
   /* Colors */
-  --bg-void: #0a0b0f;
-  --bg-base: #0d0f1a;
-  --bg-surface: #111827;
-  --bg-elevated: #1a2035;
-  --bg-hover: #1e2640;
+  --bg-void: #000000;
+  --bg-base: #050505;
+  --bg-surface: #0a0a0a;
+  --bg-elevated: #121212;
+  --bg-hover: #171717;
 
-  --border-subtle: rgba(255,255,255,0.06);
-  --border-default: rgba(255,255,255,0.10);
-  --border-strong: rgba(255,255,255,0.18);
+  --border-subtle: rgba(255,255,255,0.04);
+  --border-default: rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.15);
 
   /* Electric blue primary */
   --primary: #3b82f6;
@@ -624,3 +624,16 @@ tbody tr:hover {
   .app-content { grid-column: 1; padding: 16px; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
 }
+
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+
+/* ── Animation and Text Colors ──────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+.text-green-500 { color: var(--color-success); }
+.text-blue-500 { color: var(--color-info); }
