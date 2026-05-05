@@ -80,6 +80,11 @@ python cli.py runs list
 python cli.py runs show <RUN_ID>
 ```
 
+## Application screenshots
+<img width="1455" height="834" alt="2026-05-05_20-15-34" src="https://github.com/user-attachments/assets/76623106-5253-4a7a-9da0-fcbc9579497d" />
+<img width="1470" height="823" alt="2026-05-05_20-14-32" src="https://github.com/user-attachments/assets/c4384cfa-48d3-435d-b09e-7c64a5264aa0" />
+
+
 ## Architecture Notes
 - The LLM integration defaults to `gpt-4o-mini` because it is extremely cost-efficient for code review and outputs reliable JSON.
 - Diffs are parsed manually to extract exact GitHub diff positions required by the GitHub Comments API.
